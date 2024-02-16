@@ -1,0 +1,60 @@
+body {
+    background-image: url("realistic-soccer-football-stadium-illustration_52683-60377.avif");
+    text-align: center; /* Aligns the text to the center of the page */
+    font-family: 'Arial', sans-serif; /* Sets a default font for the body */
+    background-attachment: fixed; /* Keeps the background image fixed */
+    background-size: cover; /* Scales the background image to cover the entire viewport */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevents the background image from repeating */
+    color: white; /* Sets the text color to white */
+    font-size: 1rem; /* Sets the font size to 2rem */
+    text-shadow: 2px 2px 5px black; /* Adds a shadow effect to the text */
+}
+
+h1 {
+    font-size: 3rem;
+    text-align: center;
+    background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+h3 {
+    color: white;
+    opacity: 0; /* Start with the text invisible */
+    transition: opacity 0.5s ease-in-out; /* Transition the opacity over 1 second */
+}
+
+h3.show {
+    opacity: 1; /* When the 'show' class is added, make the text visible */
+}
+
+.buttons {
+    margin: 10px;
+    background-color: #36d616; /* Sets the background color of the buttons to a darker shade of green for better contrast */
+    padding: 10px 20px; /* Increases the padding around the buttons */
+    border: solid white; /* Removes the border of the buttons */
+    border-radius: 50px; /* Rounds the corners of the buttons */
+    font-size: 1em; /* Sets a default font size for the buttons */
+    cursor: pointer; /* Changes the cursor to a pointer when hovering over the buttons */
+    transition: background-color 0.3s; /* Adds a transition effect when the background color changes */
+}
+
+.buttons:hover {
+    background-color: #218838; /* Darkens the background color of the buttons when hovered over */
+}
+
+.choice-buttons {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%; /* Makes the choice buttons circular */
+    object-fit: contain;
+    margin: 10px;
+    transition: all 5s; /* Adds a smooth transition effect */
+}
+
+.choice-buttons:active {
+    background-color: #ff0000; /* Changes the background color to red */
+    border: 5px solid #ffffff; /* Adds a white border */
+    transform: scale(0.9); /* Shrinks the button slightly */
+}

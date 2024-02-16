@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Game</title>
+    <link rel="stylesheet" href="Cricket.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Bat Ball Stump Game</h1> <!-- This is the main heading of the page -->
+    </header>
+
+        <button class="buttons" onclick="
+        let computerMove = computerMoveDecison(); // This line calls the computerMoveDecison function and assigns its return value to the computerMove variable
+        let result = getResult('Bat', computerMove); // This line calls the getResult function with the arguments 'Bat' and computerMove and assigns its return value to the result variable   
+        showResult('Bat', computerMove, result); // This line calls the showResult function with the arguments 'Bat', computerMove, and result
+        "><img src="Bat.png" alt="Bat button" class="choice-buttons"></button> <!-- This is a button element that has the text 'Bat' and the onclick attribute that defines what happens when the button is clicked -->
+        
+        <button class="buttons" onclick="
+        computerMove = computerMoveDecison(); // This line calls the computerMoveDecison function and assigns its return value to the computerMove variable
+        result = getResult('Ball', computerMove); // This line calls the getResult function with the arguments 'Ball' and computerMove and assigns its return value to the result variable
+        showResult('Ball', computerMove, result); // This line calls the showResult function with the arguments 'Ball', computerMove, and result
+        "><img src="Ball.png" alt="Ball button" class="choice-buttons"></button> <!-- This is a button element that has the text 'Ball' and the onclick attribute that defines what happens when the button is clicked -->
+
+        <button class="buttons" onclick="
+        computerMove = computerMoveDecison(); // This line calls the computerMoveDecison function and assigns its return value to the computerMove variable
+        result = getResult('Stump',computerMove); // This line calls the getResult function with the arguments 'Stump' and computerMove and assigns its return value to the result variable
+        showResult('Stump', computerMove, result); // This line calls the showResult function with the arguments 'Stump', computerMove, and result
+        "><img src="Stump.png" alt="Stump button" class="choice-buttons"></button> <!-- This is a button element that has the text 'Stump' and the onclick attribute that defines what happens when the button is clicked -->
+
+        <h3 id="user-move"></h3>
+        <h3 id="computer-move"></h3>
+        <h3 id="result"></h3>
+        <h3 id="score"></h3>
+        
+        <button class="buttons" onclick="localStorage.clear()
+        resetScore()">Reset</button>
+        
+    <script>
+
+        // Retrieve the item named 'score' from 'localStorage'.
+        // If there is no item named 'score', it will return 'null'.
+        let scoreString = localStorage.getItem('score');
+
+        // Declare a variable named 'score'.
+        let score;
+
+        // Define a function named 'resetScore' that takes 'scoreString' as a parameter.
+        function resetScore(scoreString){
+            // If 'scoreString' is not 'null' (i.e., there is an item named 'score' in 'localStorage'), 
+            // parse 'scoreString' into a JSON object and assign it to 'score'.
+            // Otherwise, create a new object with properties 'win', 'lost', and 'tie' and assign it to 'score'.
+            score = scoreString ? JSON.parse(scoreString) : {
+                win: 0, // This property stores the number of times the user wins
+                lost: 0, // This property stores the number of times the user loses
+                tie: 0, // This property stores the number of times the user ties
+            };
+
+            // Add a new method named 'displayScore' to the 'score' object.
+            // This method returns the user's stats in string format.
+            score.displayScore = function(){ 
+                return `Score: Win: ${score.win}, Lost: ${score.lost},Tie: ${score.tie}.`
+            }
+
+            showResult();
+        }
+
+        // Call the 'resetScore' function with 'scoreString' as the argument.
+        resetScore(scoreString);
+
+
+        function computerMoveDecison(){
+            // This function decides the computer's move randomly and returns it as a string
+
+            let randonNumber = Math.random()*3; // This line generates a random number between 0 and 3
+
+            if(randonNumber > 0 && randonNumber <= 1){ // This condition checks if the random number is between 0 and 1
+                return ('Bat'); // If true, the function returns 'Bat' as the computer's move
+            } 
+            else if(randonNumber > 1 && randonNumber <= 2){ // This condition checks if the random number is between 1 and 2
+                return ('Ball'); // If true, the function returns 'Ball' as the computer's move
+            }
+            else{ // This condition handles any other case
+                return ('Stump'); // The function returns 'Stump' as the computer's move
+            }
+        }
+
+        function getResult(userMove, computerMove){
+            // This function determines the result of the game based on the user's move and the computer's move and returns it as a string
+            // It also updates the score object accordingly
+            
+            if(userMove === 'Bat'){ // This condition checks if the user's move is 'Bat'
+                if(computerMove === 'Bat'){ // This condition checks if the computer's move is also 'Bat'
+                    score.tie++; // If true, the score object's tie property is incremented by 1
+                    return `'It's a tie! 😍'`; // The function returns a string that indicates a tie
+                }
+                else if(computerMove === 'Ball'){ // This condition checks if the computer's move is 'Ball'
+                    score.win++; // If true, the score object's win property is incremented by 1
+                    return 'What a shot! Six runs! ✈️ You win! 👌'; // The function returns a string that indicates a win for the user
+                }
+                else{ // This condition handles any other case
+                    score.lost++; // The score object's lost property is incremented by 1
+                    return 'Oh no! You are dismissed (Stumped by computer)! ☹️ Computer wins!'; // The function returns a string that indicates a loss for the user
+                }
+            }
+
+            else if(userMove === 'Ball'){ // This condition checks if the user's move is 'Ball'
+                if(computerMove === 'Ball'){ // This condition checks if the computer's move is also 'Ball'
+                    score.tie++; // If true, the score object's tie property is incremented by 1
+                    return 'Match tied 😍. Both of you selected ball.'; // The function returns a string that indicates a tie
+                }
+                else if(computerMove === 'Bat'){ // This condition checks if the computer's move is 'Bat'
+                    score.lost++; // If true, the score object's lost property is incremented by 1
+                    return 'Computer hits the six 😎. You lost the game.☹️'; // The function returns a string that indicates a loss for the user
+                }
+                else{ // This condition handles any other case
+                    score.win++; // The score object's win property is incremented by 1
+                    return 'You bowled computer.😍 You won.👌'; // The function returns a string that indicates a win for the user
+                }
+            }
+
+            else{ // This condition checks if the user's move is 'Stump'
+                if(computerMove === 'Stump'){ // This condition checks if the computer's move is also 'Stump'
+                    score.tie++; // If true, the score object's tie property is incremented by 1
+                    return `Its a tie! 😍 Both of you selected stump.`; // The function returns a string that indicates a tie
+                }
+                else if(computerMove === 'Bat'){ // This condition checks if the computer's move is 'Bat'
+                    score.win++; // If true, the score object's win property is incremented by 1
+                    return `That's a smart play! You stumped to the computer! You won the game.😎`; // The function returns a string that indicates a win for the user
+                }
+                else{ // This condition handles any other case
+                    score.lost++; // The score object's lost property is incremented by 1
+                    return `That's a fantastic delivery by the computer! You are bowled out! ☹️ Computer win!`; // The function returns a string that indicates a loss for the user
+                }
+            }
+        }
+    
+        function showResult(userMove, computerMove, result) {
+        localStorage.setItem('score', JSON.stringify(score));
+
+        // Get the elements
+        const userMoveElement = document.querySelector('#user-move');
+        const computerMoveElement = document.querySelector('#computer-move');
+        const resultElement = document.querySelector('#result');
+        const scoreElement = document.querySelector('#score');
+
+        // Update the text
+        userMoveElement.innerText = userMove !== undefined ? `Your move is: ${userMove}` : '';
+        computerMoveElement.innerText = computerMove !== undefined ? `Computer's move is: ${computerMove}` : '';
+        resultElement.innerText = result !== undefined ? result : '';
+        scoreElement.innerText = `${score.displayScore()}`;
+
+        // Add the 'show' class to each element to trigger the transition
+        userMoveElement.classList.add('show');
+        computerMoveElement.classList.add('show');
+        resultElement.classList.add('show');
+        scoreElement.classList.add('show');
+
+        // After a delay, remove the 'show' class so the transition can be triggered again next time
+        setTimeout(() => {
+            userMoveElement.classList.remove('show');
+            computerMoveElement.classList.remove('show');
+            resultElement.classList.remove('show');
+            scoreElement.classList.remove('show');
+        }, 5000); // The delay should match the duration of the transition
+        }
+
+    </script>
+
+</body>
+</html>
